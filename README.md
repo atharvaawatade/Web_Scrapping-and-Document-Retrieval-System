@@ -80,3 +80,60 @@ Text Processing: PyMongo text search capabilities
       default_limits=["5 per minute"],  # Adjust the limits here
       storage_uri="memory://",
   )
+
+
+## API Endpoints
+
+### GET `/health`
+Returns a random health status message to check the application status.
+
+#### Sample Request:
+```bash
+curl http://127.0.0.1:5000/health
+```
+
+#### Sample Response:
+"Healthy"
+
+### POST /search
+Searches for documents in the database based on the provided text.
+
+Request Parameters:
+user_id: Unique identifier for the user.
+text: Search keyword(s).
+top_k: Number of top results to return (default: 5).
+threshold: Minimum score threshold for filtering search results.
+
+```bash
+curl -X POST http://127.0.0.1:5000/search -H "Content-Type: application/json" -d '{
+  "user_id": "12345",
+  "text": "technology",
+  "top_k": 5,
+  "threshold": 0.5
+}'
+```
+```bash
+{
+  "results": [
+    {
+      "id": "614cf29b1fdfab12345",
+      "content": "Article Title",
+      "score": 1.5,
+      "source": "https://timesofindia.indiatimes.com/"
+    }
+  ],
+  "inference_time": 0.0824
+}
+```
+
+Scraping Logic
+The system scrapes articles from predefined news websites every 60 seconds and stores them in MongoDB. Scraping is handled by the scrape_news function, which fetches and parses HTML content to extract article titles.
+
+Rate Limiting
+The system limits users to 5 search requests per minute to prevent abuse. This is implemented using the Flask-Limiter library.
+
+Logging
+The application logs scraping activities and errors using the logging module. These logs help monitor scraping activities and troubleshoot issues.
+
+
+THANKYOU!!!
