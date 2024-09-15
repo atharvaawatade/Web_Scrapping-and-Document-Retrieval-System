@@ -1,6 +1,17 @@
 # Document Retrieval System 21BCE11234
 
 This is a Flask-based backend for a document retrieval system that scrapes news articles from multiple websites, stores them in MongoDB, and allows users to search through the articles. It includes rate limiting, health checks, and article search functionalities.
+![image](https://github.com/user-attachments/assets/9c885efb-ff2f-48d0-91c5-f1106e8b4dcf)
+
+
+# 🛠️ Technology Stack
+
+Backend: Python 3.7+, Flask
+Database: MongoDB
+Caching: Built-in MongoDB caching
+Containerization: Docker
+Web Scraping: BeautifulSoup4, Requests
+Text Processing: PyMongo text search capabilities
 
 ## Table of Contents
 - [Features](#features)
