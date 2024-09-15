@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document Retrieval System</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Document Retrieval System</h1>
+        <input type="text" id="userId" placeholder="User ID" value="user1">
+        <input type="text" id="searchText" placeholder="Search text" value="news">
+        <input type="number" id="topK" placeholder="Top K results" value="5">
+        <input type="number" id="threshold" step="0.1" placeholder="Threshold" value="0.5">
+        <button onclick="search()">Search</button>
+        <div id="results"></div>
+    </div>
+
+    <script>
+        async function search() {
+            const userId = document.getElementById('userId').value;
+            const searchText = document.getElementById('searchText').value;
+            const topK = document.getElementById('topK').value;
+            const threshold = document.getElementById('threshold').value;
+
+            try {
+                const response = await fetch('http://localhost:5000/search', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        user_id: userId,
+                        text: searchText,
+                        top_k: topK,
+                        threshold: threshold
+                    }),
+                });
+
+                if (response.status === 429) {
+                    throw new Error('Rate limit exceeded');
+                }
+
+                const data = await response.json();
+                displayResults(data);
+            } catch (error) {
+                displayError(error.message);
+            }
+        }
+
+        function displayResults(data) {
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = `
+                <h2>Results</h2>
+                <p>Inference Time: ${data.inference_time.toFixed(4)} seconds</p>
+                <ul>
+                    ${data.results.map(doc => `
+                        <li>
+                            <strong>Content:</strong> ${doc.content}<br>
+                            <strong>Score:</strong> ${doc.score.toFixed(4)}
+                        </li>
+                    `).join('')}
+                </ul>
+            `;
+        }
+
+        function displayError(message) {
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = `<p class="error">${message}</p>`;
+        }
+    </script>
+</body>
+</html>
