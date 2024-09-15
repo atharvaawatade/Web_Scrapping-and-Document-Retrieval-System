@@ -41,6 +41,31 @@ Text Processing: PyMongo text search capabilities
 
 ## Installation
 
+├── Backend
+│ ├── Flask Application
+│ │ ├── Routes
+│ │ │ ├── /health (GET)
+│ │ │ └── /search (POST)
+│ │ ├── Scraper
+│ │ │ └── Periodic News Scraping
+│ │ ├── Rate Limiter
+│ │ ├── Logging
+│ │ └── Database Interaction
+│ │ ├── Insert/Update Articles
+│ │ └── Search Queries
+│ ├── MongoDB
+│ │ ├── Documents Collection
+│ │ └── Users Collection
+│ └── Configuration
+│ ├── MongoDB Connection
+│ └── Rate Limiting Settings
+├── Frontend
+│ ├── User Interface
+│ │ ├── Search Form
+│ │ ├── Results Display
+
+
+
 ### Prerequisites
 - **Python 3.8+**
 - **MongoDB** (You can use a local MongoDB or a cloud-based one like MongoDB Atlas)
